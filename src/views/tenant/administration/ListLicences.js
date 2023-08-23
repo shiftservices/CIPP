@@ -1,12 +1,14 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { CippPageList } from 'src/components/layout'
+import { CellTip, cellBooleanFormatter, cellDateFormatter } from 'src/components/tables'
 
 const columns = [
   {
     name: 'Tenant',
     selector: (row) => row['Tenant'],
     sortable: true,
+    cell: (row) => CellTip(row['Tenant']),
     wrap: true,
     exportSelector: 'Tenant',
   },
@@ -14,7 +16,9 @@ const columns = [
     name: 'license',
     selector: (row) => row['License'],
     sortable: true,
+    cell: (row) => CellTip(row['License']),
     exportSelector: 'License',
+    minWidth: '300px',
   },
   {
     name: 'Used',
@@ -34,6 +38,40 @@ const columns = [
     sortable: true,
     exportSelector: 'TotalLicenses',
   },
+  {
+    name: 'Estimated Term',
+    selector: (row) => row['EstTerm'],
+    sortable: true,
+    cell: (row) => CellTip(row['EstTerm']),
+    exportSelector: 'EstTerm',
+  },
+  {
+    name: 'Trial',
+    selector: (row) => row['Trial'],
+    sortable: true,
+    exportSelector: 'Trial',
+    cell: cellBooleanFormatter(),
+  },
+  {
+    name: 'Days until renewal',
+    selector: (row) => row['TimeUntilRenew'],
+    sortable: true,
+    exportSelector: 'TimeUntilRenew',
+  },
+  {
+    name: 'Date Created',
+    selector: (row) => row['dateCreated'],
+    sortable: true,
+    exportSelector: 'dateCreated',
+    cell: cellDateFormatter(),
+  },
+  {
+    name: 'Renewal Date',
+    selector: (row) => row['dateExpires'],
+    sortable: true,
+    exportSelector: 'dateExpires',
+    cell: cellDateFormatter(),
+  },
 ]
 
 const LicenseList = () => {
@@ -41,9 +79,10 @@ const LicenseList = () => {
 
   return (
     <CippPageList
+      capabilities={{ allTenants: true, helpContext: 'https://google.com' }}
       title="Licenses Report"
-      tenantSelector={true}
-      showAllTenantSelector={true}
+      tenantSelector={false}
+      showAllTenantSelector={false}
       datatable={{
         reportName: `${tenant?.defaultDomainName}-licenses`,
         path: '/api/ListLicenses',
