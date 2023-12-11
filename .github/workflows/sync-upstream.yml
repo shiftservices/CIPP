@@ -1,17 +1,18 @@
 name: Sync Upstream
 on:
   schedule:
-    - cron: '0 * * * *' # every 30 minutes
+    - cron: '0 * * * *'
   workflow_dispatch: # on button click
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: tgymnich/fork-sync@v1.9
+      - uses: tgymnich/fork-sync@v1.8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           owner: KelvinTegelaar
           base: main
           head: main
-          retries: 4
-          retryAfter: 15
+          retries: 2
+          retry_after: 15
+          auto_merge: true
