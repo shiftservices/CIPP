@@ -6,3 +6,4 @@ rules:
   - base: dev
     upstream: KelvinTegelaar:dev
     mergeMethod: none
+label: ":arrow_heading_down: sync"
