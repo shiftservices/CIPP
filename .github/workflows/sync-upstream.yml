@@ -9,7 +9,9 @@ jobs:
     steps:
       - uses: tgymnich/fork-sync@v1.9
         with:
-          token: ${{ secrets.PERSONAL_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           owner: KelvinTegelaar
           base: main
           head: main
+          retries: 4
+          retryAfter: 15
